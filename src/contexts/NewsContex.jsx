@@ -26,11 +26,16 @@ export const NewsProvider = ({ children }) => {
 
   const [getDeleteResponse, setGetDeleteResponse] = useState(null);
   const [getDeleteError, setDeleteError] = useState(null);
-  const [getDeleteIsLoading, setDeleteIsLoading] = useState(true);
+  const [getDeleteIsLoading, setDeleteIsLoading] = useState(false);
 
   const [addItemError, setAddItemError] = useState(null);
   const [addItemIsLoading, setAddItemIsLoading] = useState(false);
   const [addItemResponse, setAddItemResponse] = useState(null);
+
+  const [message, setMessage] = useState({
+    text: "",
+    color: "",
+  });
 
   const baseUrl = "http://localhost:8000/api/news";
 
@@ -61,6 +66,7 @@ export const NewsProvider = ({ children }) => {
       setGetItemsError(null);
     } catch (error) {
       setGetItemsError(error.message);
+      handleMessage({ text: error.message, color: "danger" });
     } finally {
       setGetItemsIsLoading(false);
     }
@@ -79,12 +85,13 @@ export const NewsProvider = ({ children }) => {
       setGetItemsError(null);
     } catch (error) {
       setSingleItemError(error.message);
+      handleMessage({ text: error.message, color: "danger" });
     } finally {
       setSingleItemIsLoading(false);
     }
   }, []);
 
-  const fetchTagNews = useCallback(async (page, tag_id) => {
+  const fetchTagNews = useCallback(async (page, tag_id, type='scroll') => {
     setGetTagNewsItemsIsLoading(true);
 
     try {
@@ -96,20 +103,25 @@ export const NewsProvider = ({ children }) => {
 
       const newData = await response.json();
 
-      setGetTagNewsItemsData((prevData) => {
-        const uniqueData = Array.from(
-          new Map(
-            [...prevData, ...newData.results].map((item) => [item.id, item])
-          ).values()
-        );
-
-        return uniqueData;
-      });
+      if (type === 'scroll') {
+        setGetTagNewsItemsData((prevData) => {
+          const uniqueData = Array.from(
+            new Map(
+              [...prevData, ...newData.results].map((item) => [item.id, item])
+            ).values()
+          );
+  
+          return uniqueData;
+        });
+      } else {
+        setGetTagNewsItemsData(newData.results);
+      }
 
       setGetTagNewsItemsHasNext(newData.next !== null);
       setGetTagNewsItemsError(null);
     } catch (error) {
       setGetTagNewsItemsError(error.message);
+      handleMessage({ text: error.message, color: "danger" });
     } finally {
       setGetTagNewsItemsIsLoading(false);
     }
@@ -128,6 +140,8 @@ export const NewsProvider = ({ children }) => {
       setGetItemsError(null);
     } catch (error) {
       setGetTagItemsError(error.message);
+      handleMessage({ text: error.message, color: "danger" });
+
     } finally {
       setGetTagItemsIsLoading(false);
     }
@@ -175,7 +189,7 @@ export const NewsProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      console.error("Error updating likes/dislikes:", error.message);
+      handleMessage({ text: error.message, color: "danger" });
     }
   }, []);
 
@@ -194,13 +208,18 @@ export const NewsProvider = ({ children }) => {
       if (response.ok) {
         setGetDeleteResponse("News deleted successfully");
         setDeleteError(null);
-        setGetItemsData((prevItems) => prevItems.filter((item) => item.id !== news_id));
+        setGetItemsData((prevItems) =>
+          prevItems.filter((item) => item.id !== news_id)
+        );
+        handleMessage({ text: "News deleted successfully", color: "success" });
       } else {
         setDeleteError("Failed to delete news");
+        handleMessage({ text: 'Failed to delete news', color: "danger" });
       }
+      setDeleteIsLoading(false);
     } catch (error) {
       setDeleteError("Failed to delete news");
-      console.error("Error deleting news:", error);
+      handleMessage({ text: error.message, color: "danger" });
     } finally {
       setDeleteIsLoading(false);
     }
@@ -221,15 +240,26 @@ export const NewsProvider = ({ children }) => {
       });
 
       if (!response.ok) {
+        handleMessage({ text: 'Failed to post news', color: "danger" });
         throw new Error("Failed to post news");
       }
 
       setAddItemIsLoading(false);
       setAddItemResponse("News posted successfully");
+      handleMessage({ text: "News posted successfully", color: "success" });
     } catch (error) {
       setAddItemError(error.message);
+      handleMessage({ text: error.message, color: "danger" });
     } finally {
       setAddItemIsLoading(false);
+    }
+  }, []);
+
+  const handleMessage = useCallback(async (messageData={}, type = "set") => {
+    if (type === "set") {
+      setMessage(messageData);
+    } else {
+      setMessage({});
     }
   }, []);
 
@@ -265,6 +295,9 @@ export const NewsProvider = ({ children }) => {
     addItemIsLoading,
     addItemResponse,
     postNews,
+
+    message,
+    handleMessage,
 
     handleLikeDislike,
   };

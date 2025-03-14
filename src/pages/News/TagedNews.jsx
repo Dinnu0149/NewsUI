@@ -25,7 +25,6 @@ const TagedNews = () => {
     getTagNewsItemsError,
     getTagNewsItemsHasNext,
     fetchTagNews,
-    getTagItemsData,
   } = useContext(NewsContext);
 
   const lastNewsRef = useCallback(
@@ -34,7 +33,11 @@ const TagedNews = () => {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver(
         (entries) => {
-          if (entries[0].isIntersecting && getTagNewsItemsHasNext && !getTagNewsItemsError) {
+          if (
+            entries[0].isIntersecting &&
+            getTagNewsItemsHasNext &&
+            !getTagNewsItemsError
+          ) {
             setPage((prevPage) => prevPage + 1);
           }
         },
@@ -46,8 +49,12 @@ const TagedNews = () => {
   );
 
   useEffect(() => {
-    fetchTagNews(page, tag_id);
-  }, [page, tag_id]);
+    setPage(1); // Reset page to 1 when tag_id changes
+  }, [tag_id]);
+
+  useEffect(() => {
+    fetchTagNews(page, tag_id, page === 1 ? 'new' : 'scroll');
+  }, [page, tag_id, fetchTagNews]);
 
   const newsList = useMemo(
     () =>

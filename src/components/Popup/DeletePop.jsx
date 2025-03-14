@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import NewsContext from "../../contexts/NewsContex";
 
 const DeletePop = ({ news, showModal, setShowModal }) => {
-  const { handleDelete } = useContext(NewsContext);
+  const { handleDelete, getDeleteIsLoading } = useContext(NewsContext);
 
   const handleDeleteSubmit = useCallback(() => {
     handleDelete(news.id);
@@ -29,7 +29,11 @@ const DeletePop = ({ news, showModal, setShowModal }) => {
           Close
         </Button>
         <Button variant="danger" onClick={handleDeleteSubmit}>
-          Delete News
+          {getDeleteIsLoading ? (
+            <i className="fa-solid fa-spinner fa-spin me-2"></i>
+          ) : (
+            "Delete News"
+          )}
         </Button>
       </Modal.Footer>
     </Modal>

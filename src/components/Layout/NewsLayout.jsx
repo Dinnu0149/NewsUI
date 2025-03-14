@@ -1,14 +1,10 @@
 import React, { useState, useMemo } from "react";
-import { Row, Col, Container } from "react-bootstrap";
+import {Container } from "react-bootstrap";
 import NavigationHeader from "../Navigations/NavigationHeader";
 import Messages from "../Popup/Messages";
 import Loading from "../Loading/Loading";
 
-const NewsLayout = ({ children, dataLoading, Response=[] }) => {
-  const [message, setMessage] = useState({
-    text: Response.text || "",
-    color: Response.color || "",
-  });
+const NewsLayout = ({ children, dataLoading, }) => {
 
   const tags = [
     { id: 1, name: 'Technology' },
@@ -21,9 +17,7 @@ const NewsLayout = ({ children, dataLoading, Response=[] }) => {
   const memoizedLoading = useMemo(() => <Loading />, []);
 
   const memoizedMessages = useMemo(() => (
-    message?.text && message?.color ? (
-      <Messages text={message.text} color={message.color} />
-    ) : null
+      <Messages />
 ), []);
 
   return (

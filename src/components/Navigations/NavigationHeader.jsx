@@ -4,7 +4,7 @@ import NewsContext from "../../contexts/NewsContex";
 import { NavLink } from "react-router-dom";
 
 const NavigationHeader = () => {
-  const { getTagItemsData, getTagItemsIsLoading, getTagItemsError, fetchTags } =
+  const { getTagItemsData, getTagItemsIsLoading, fetchTags } =
     useContext(NewsContext);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const NavigationHeader = () => {
   const tagsDropdownItems = useMemo(() => {
     getTagItemsIsLoading && <NavDropdown.Item>Loading...</NavDropdown.Item>;
     return getTagItemsData.map((tag) => (
-      <NavDropdown.Item key={tag.id} href={`/news/tag/${tag.name}/${tag.id}`}>
+      <NavDropdown.Item as={NavLink} key={tag.id} to={`/news/tag/${tag.name}/${tag.id}`}>
         {tag.name}
       </NavDropdown.Item>
     ));
@@ -31,11 +31,9 @@ const NavigationHeader = () => {
   }, []);
 
   const handleTagsToggle = useCallback((isOpen) => {
-    console.log("Tags dropdown toggled:", isOpen);
   }, []);
 
   const handleAdminToggle = useCallback((isOpen) => {
-    console.log("Admin dropdown toggled:", isOpen);
   }, []);
 
   return (

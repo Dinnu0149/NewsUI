@@ -9,7 +9,7 @@ import { Card, Button, Modal, Row, Col, Image } from "react-bootstrap";
 import NewsLayout from "../../components/Layout/NewsLayout";
 import Header from "../../components/Header/Header";
 import NewsContext from "../../contexts/NewsContex";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import DeletePop from "../../components/Popup/DeletePop";
 
 const NewsDetail = () => {
@@ -20,11 +20,8 @@ const NewsDetail = () => {
   const {
     getTagItemsData: tags = [],
     getSingleItemData: news = {},
-    getSingleItemError,
-    getSingleItemIsLoading,
     fetchNewsDetail,
 
-    getDeleteError,
     getDeleteResponse,
     getDeleteIsLoading,
     handleLikeDislike,
@@ -146,14 +143,14 @@ const NewsDetail = () => {
                   <Row>
                     {tags.map((tag) => (
                       <Col key={tag.id} xs={12}>
-                        <a
-                          href={`/news/tag/${tag.name}/${tag.id}`}
+                        <Link
+                          to={`/news/tag/${tag.name}/${tag.id}`}
                           className="text-decoration-none"
                         >
                           <p className="bg-danger-subtle text-danger rounded-pill text-capitalize text-center">
                             {tag.name}
                           </p>
-                        </a>
+                        </Link>
                       </Col>
                     ))}
                   </Row>

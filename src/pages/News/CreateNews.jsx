@@ -26,7 +26,6 @@ const CreateNews = () => {
     getTagItemsData: tags = [],
     addItemResponse,
     addItemIsLoading,
-    addItemError,
 
     fetchTags,
     postNews,
