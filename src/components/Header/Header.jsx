@@ -8,9 +8,6 @@ const Header = ({ title = "Trending News" }) => {
         <BackButton />
         <h5 className="text-light mb-0 text-capitalize">{title}</h5>
       </div>
-      <p className="text-light ms-4 pb-0 mb-0">
-        Latest news from around the world
-      </p>
     </div>
   );
 };
