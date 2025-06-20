@@ -67,7 +67,7 @@ const TagedNews = () => {
     [getTagNewsItemsData]
   );
 
-  const memoizedHeaderSection = useMemo(() => <Header title={tag_name} />, []);
+  const memoizedHeaderSection = useMemo(() => <Header title={`${tag_name} News`} />, [tag_name]);
 
   return (
     <NewsLayout dataLoading={false}>

@@ -37,7 +37,7 @@ const CreateNews = () => {
 
   useEffect(() => {
     if (addItemResponse && !addItemIsLoading) {
-      navigate("/news");
+      navigate("/");
     }
   }, [addItemIsLoading, addItemResponse]);
 

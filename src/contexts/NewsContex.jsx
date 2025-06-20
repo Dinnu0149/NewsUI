@@ -37,7 +37,8 @@ export const NewsProvider = ({ children }) => {
     color: "",
   });
 
-  const baseUrl = "http://localhost:8000/api/news";
+  // const baseUrl = "http://localhost:8000/api/news";
+  const baseUrl = "https://two4hnews-l1jb.onrender.com/api/news";
 
   const fetchNews = useCallback(async (page) => {
     setGetItemsIsLoading(true);
@@ -91,7 +92,7 @@ export const NewsProvider = ({ children }) => {
     }
   }, []);
 
-  const fetchTagNews = useCallback(async (page, tag_id, type='scroll') => {
+  const fetchTagNews = useCallback(async (page, tag_id, type = "scroll") => {
     setGetTagNewsItemsIsLoading(true);
 
     try {
@@ -103,14 +104,14 @@ export const NewsProvider = ({ children }) => {
 
       const newData = await response.json();
 
-      if (type === 'scroll') {
+      if (type === "scroll") {
         setGetTagNewsItemsData((prevData) => {
           const uniqueData = Array.from(
             new Map(
               [...prevData, ...newData.results].map((item) => [item.id, item])
             ).values()
           );
-  
+
           return uniqueData;
         });
       } else {
@@ -141,7 +142,6 @@ export const NewsProvider = ({ children }) => {
     } catch (error) {
       setGetTagItemsError(error.message);
       handleMessage({ text: error.message, color: "danger" });
-
     } finally {
       setGetTagItemsIsLoading(false);
     }
@@ -151,11 +151,11 @@ export const NewsProvider = ({ children }) => {
     try {
       const response = await fetch(`${baseUrl}/like/${newsId}/`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": getCSRFToken(),
         },
-        credentials: "include",
         body: JSON.stringify({ action: type }),
       });
 
@@ -214,7 +214,7 @@ export const NewsProvider = ({ children }) => {
         handleMessage({ text: "News deleted successfully", color: "success" });
       } else {
         setDeleteError("Failed to delete news");
-        handleMessage({ text: 'Failed to delete news', color: "danger" });
+        handleMessage({ text: "Failed to delete news", color: "danger" });
       }
       setDeleteIsLoading(false);
     } catch (error) {
@@ -240,7 +240,7 @@ export const NewsProvider = ({ children }) => {
       });
 
       if (!response.ok) {
-        handleMessage({ text: 'Failed to post news', color: "danger" });
+        handleMessage({ text: "Failed to post news", color: "danger" });
         throw new Error("Failed to post news");
       }
 
@@ -255,7 +255,7 @@ export const NewsProvider = ({ children }) => {
     }
   }, []);
 
-  const handleMessage = useCallback(async (messageData={}, type = "set") => {
+  const handleMessage = useCallback(async (messageData = {}, type = "set") => {
     if (type === "set") {
       setMessage(messageData);
     } else {

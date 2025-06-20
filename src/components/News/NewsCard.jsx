@@ -18,7 +18,7 @@ const NewsCard = ({ item }) => {
     <div className="row mb-4 ">
       <div className="col-md-4">
         <Link to={`/news/${item.id}/detail`} className="text-decoration-none">
-          <img src={item.picture} className="img-fluid" alt={item.title} />
+          <img src={item.picture} className="img-fluid rounded-4" alt={item.title} />
         </Link>
       </div>
       <div className="col-md-8 align-content-center">

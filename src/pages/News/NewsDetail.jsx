@@ -33,7 +33,7 @@ const NewsDetail = () => {
 
   useEffect(() => {
     if (getDeleteResponse && !getDeleteIsLoading) {
-      navigate("/news");
+      navigate("/");
     }
   }, [getDeleteResponse, getDeleteIsLoading]);
 
@@ -60,7 +60,7 @@ const NewsDetail = () => {
     [showModal]
   );
 
-  const memoizedHeader = useMemo(() => <Header title="" />, []);
+  const memoizedHeader = useMemo(() => <Header title={"Details"} />, []);
 
   return (
     <NewsLayout dataLoading={false}>
@@ -75,7 +75,7 @@ const NewsDetail = () => {
                   <h5 className="card-title mb-3">{news.title}</h5>
                   <Image
                     src={news.picture}
-                    className="card-img-top"
+                    className="card-img-top rounded-4"
                     alt={news.title}
                   />
                   <small className="text-body-tertiary mt-1">
@@ -118,7 +118,7 @@ const NewsDetail = () => {
                   </div>
 
                   {/* Delete Button & Modal */}
-                  <div className="d-flex justify-content-end mt-3">
+                  {/* <div className="d-flex justify-content-end mt-3">
                     <Button
                       variant="outline-danger"
                       size="sm"
@@ -126,7 +126,7 @@ const NewsDetail = () => {
                     >
                       <i className="fa-solid fa-trash-can"></i> Delete
                     </Button>
-                  </div>
+                  </div> */}
 
                   {memoizedDeletePopUp}
                 </Card>
@@ -135,7 +135,7 @@ const NewsDetail = () => {
           </Col>
 
           {/* Sidebar with Tags */}
-          <Col md={4}>
+          <Col md={4} className=" mt-lg-0 mt-5">
             <Row>
               <Col md={8}>
                 <Card className="bg-transparent border-0">
@@ -147,7 +147,7 @@ const NewsDetail = () => {
                           to={`/news/tag/${tag.name}/${tag.id}`}
                           className="text-decoration-none"
                         >
-                          <p className="bg-danger-subtle text-danger rounded-pill text-capitalize text-center">
+                          <p className="bg-danger-subtle text-danger rounded-pill text-capitalize text-center py-2">
                             {tag.name}
                           </p>
                         </Link>

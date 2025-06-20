@@ -14,7 +14,7 @@ const NavigationHeader = () => {
   const tagsDropdownItems = useMemo(() => {
     getTagItemsIsLoading && <NavDropdown.Item>Loading...</NavDropdown.Item>;
     return getTagItemsData.map((tag) => (
-      <NavDropdown.Item as={NavLink} key={tag.id} to={`/news/tag/${tag.name}/${tag.id}`}>
+      <NavDropdown.Item as={NavLink} key={tag.id} to={`/news/tag/${tag.name}/${tag.id}`} className="">
         {tag.name}
       </NavDropdown.Item>
     ));
@@ -39,8 +39,8 @@ const NavigationHeader = () => {
   return (
     <Navbar bg="danger" expand="lg" fixed="top" className="mb-5">
       <Container fluid>
-        <Navbar.Brand as={NavLink} href="#" className="text-white fw-bold ms-5">
-          <i className="fa-solid fa-rss me-3"></i>
+        <Navbar.Brand as={NavLink} href="#" className="text-white fw-bold ms-1 ms-lg-5">
+          <i className="fa-solid fa-rss me-2"></i>
           24HNews
         </Navbar.Brand>
 
@@ -48,27 +48,27 @@ const NavigationHeader = () => {
 
         <Navbar.Collapse id="navbarNav">
           <Nav className="ms-auto me-5">
-            <Nav.Link as={NavLink} to="/news" className="text-white fw-bold">
+            <Nav.Link as={NavLink} to="/" className="text-white fw-bold">
               News
             </Nav.Link>
 
             <NavDropdown
               title="Tags"
               id="tags-dropdown"
-              className="text-white fw-bold"
+              className="text-white fw-bold me-5"
               onToggle={handleTagsToggle}
             >
               {tagsDropdownItems}
             </NavDropdown>
 
-            <NavDropdown
+            {/* <NavDropdown
               title="Admin"
               id="admin-dropdown"
               className="text-white fw-bold"
               onToggle={handleAdminToggle}
             >
               {adminDropdownItems}
-            </NavDropdown>
+            </NavDropdown> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

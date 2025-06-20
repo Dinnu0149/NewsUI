@@ -9,7 +9,7 @@ const NavigationControl = () => {
   return (
     <Router>
         <Routes>
-            <Route path="/news" element={<NewsList />} />
+            <Route path="/" element={<NewsList />} />
             <Route path="/news/:news_id/detail" element={<NewsDetail />} />
             <Route path="/news/tag/:tag_name/:tag_id" element={<TagedNews />} />
             <Route path="/news/create" element={<CreateNews />} />
