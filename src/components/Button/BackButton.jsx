@@ -9,7 +9,7 @@ const BackButton = () => {
   }, [navigate]);
 
   return (
-    <div className="bg-transparent p-0 m-0 ms-3">
+    <div className="bg-transparent p-0 m-0 ms-1">
       <i
         onClick={handleBackClick}
         className={`fa-solid fa-arrow-left-long fs-6 p-2 text-light back-button`}
