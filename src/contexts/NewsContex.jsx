@@ -131,7 +131,9 @@ export const NewsProvider = ({ children }) => {
   const fetchTags = useCallback(async () => {
     setGetTagItemsIsLoading(true);
     try {
-      const response = await fetch(`${baseUrl}/tags`);
+      const response = await fetch(`${baseUrl}/tags`, {
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+      });
 
       if (!response.ok) throw new Error("Failed to fetch tags");
 
