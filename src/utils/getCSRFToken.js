@@ -5,7 +5,7 @@ export const getCSRFToken = () => {
     let c = cookies[i].trim();
     if (c.indexOf(name) === 0) return c.substring(name.length);
   }
-  console.log(cookies = document.cookie.split(";"));
+  console.log(cookies);
 
   return "";
 };
